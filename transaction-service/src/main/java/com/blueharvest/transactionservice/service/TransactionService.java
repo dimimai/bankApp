@@ -5,6 +5,8 @@ import com.blueharvest.transactionservice.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TransactionService {
 
@@ -21,4 +23,13 @@ public class TransactionService {
 
         return newTransaction;
     }
+
+    public List<Transaction> getAllTransactionsById(Long accountId) {
+
+        List<Transaction> transactions = transactionRepository.findByAccountId(accountId);
+
+        return transactions;
+    }
+
+
 }
