@@ -21,7 +21,7 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @PostMapping(value = "/transactions",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/transactions",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> transactionCreation(@RequestBody Transaction transaction){
 
         Transaction newTransaction = transactionService.createNewTransaction(transaction);

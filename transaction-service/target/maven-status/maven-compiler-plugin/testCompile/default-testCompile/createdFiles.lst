@@ -1,1 +1,3 @@
+com\blueharvest\transactionservice\service\TransactionServiceTest.class
+com\blueharvest\transactionservice\controller\TransactionControllerTest.class
 com\blueharvest\transactionservice\TransactionServiceApplicationTests.class

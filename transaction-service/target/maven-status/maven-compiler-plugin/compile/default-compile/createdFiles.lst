@@ -1,1 +1,6 @@
+com\blueharvest\transactionservice\model\Transaction$TransactionBuilder.class
+com\blueharvest\transactionservice\model\Transaction.class
+com\blueharvest\transactionservice\controller\TransactionController.class
+com\blueharvest\transactionservice\service\TransactionService.class
 com\blueharvest\transactionservice\TransactionServiceApplication.class
+com\blueharvest\transactionservice\repository\TransactionRepository.class
