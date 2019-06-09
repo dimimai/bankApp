@@ -4,6 +4,7 @@ package com.blueharvest.accountservice.controller;
 import com.blueharvest.accountservice.TransactionServiceProxy;
 import com.blueharvest.accountservice.model.Account;
 import com.blueharvest.accountservice.model.Customer;
+import com.blueharvest.accountservice.model.Responses.TransactionsResponse;
 import com.blueharvest.accountservice.model.TransactionBean;
 import com.blueharvest.accountservice.service.AccountService;
 import com.blueharvest.accountservice.service.CustomerService;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class AccountController {
@@ -47,6 +50,25 @@ public class AccountController {
        }
 
        return ResponseEntity.status(HttpStatus.CREATED).body(newAccount);
+    }
+
+    @GetMapping(value = "/accounts/{customerId}/transactions",produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity<Object> getTransactions(@PathVariable(value = "customerId") Long customerId){
+
+       Customer customer = customerService.getCustomerById(customerId);
+       Long accountId = accountService.getAccountId(customerId);
+       List<TransactionBean> transactions =  proxy.retrieveAllTransactionsById(accountId).getBody();
+
+       Double totalBalance = transactions.stream().mapToDouble(o -> o.getAmount()).sum();
+
+       TransactionsResponse response = TransactionsResponse.builder()
+                                                .name(customer.getFirstName())
+                                                .sureName(customer.getLastName())
+                                                .balance(totalBalance)
+                                                .transactions(transactions)
+                                                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 

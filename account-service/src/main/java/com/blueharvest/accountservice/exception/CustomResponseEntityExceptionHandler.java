@@ -24,7 +24,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     }
 
 
-    @ExceptionHandler(CustomerNotFoundException.class)
+    @ExceptionHandler({CustomerNotFoundException.class,AccountNotFoundException.class})
     public final ResponseEntity<Object> handleNotFoundException(Exception ex, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(new Date(), ex.getMessage(), request.getDescription(false));
 

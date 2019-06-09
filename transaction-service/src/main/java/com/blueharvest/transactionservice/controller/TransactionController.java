@@ -30,7 +30,7 @@ public class TransactionController {
     }
 
     @GetMapping(value = "/transactions/{accountId}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> retrieveAllTransactionsById(@PathVariable Long accountId){
+    public ResponseEntity<List<Transaction>> retrieveAllTransactionsById(@PathVariable(name = "accountId") Long accountId){
 
         List<Transaction> transactions = transactionService.getAllTransactionsById(accountId);
 
