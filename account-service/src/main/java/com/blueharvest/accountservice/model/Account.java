@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "accounts")
@@ -21,7 +22,10 @@ public class Account{
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @NotNull(message = "Iban number is required")
     private String iban;
+
+    @NotNull(message = "Balance is required")
     private Double balance;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -31,6 +35,7 @@ public class Account{
     private Customer customer;
 
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Proper account type is required")
     private AccountType accountType;
 
 }

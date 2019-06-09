@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,7 +34,7 @@ public class AccountController {
 
     @PostMapping(value = "/customers/{customerId}/accounts",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> createNewAccount(@PathVariable(value = "customerId") Long customerId,
-                                                  @RequestBody Account account) {
+                                                   @Valid @RequestBody Account account) {
 
        Customer customer = customerService.getCustomerById(customerId);
        account.setCustomer(customer);

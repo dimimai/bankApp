@@ -64,9 +64,9 @@ public class AccountControllerTest {
         Date date = new Date();
 
         Customer customer = Customer.builder().id(1000L).firstName("John").lastName("Doe").birthDate(date).build();
-        Account accountJson = Account.builder().balance(1000.0).accountType(AccountType.current).iban("test")
+        Account accountJson = Account.builder().balance(1000.0).accountType(AccountType.CURRENT).iban("test")
                 .build();
-        Account account = Account.builder().id(1L).balance(1000.0).accountType(AccountType.current).iban("test").customer(customer)
+        Account account = Account.builder().id(1L).balance(1000.0).accountType(AccountType.CURRENT).iban("test").customer(customer)
                 .build();
 
         given(customerService.getCustomerById(1000L)).willReturn(customer);
@@ -86,7 +86,7 @@ public class AccountControllerTest {
 
     @Test
     public void createAccountNotValidRequest() throws Exception {
-        Account accountJson = Account.builder().balance(1000.0).accountType(AccountType.current).iban("test").build();
+        Account accountJson = Account.builder().balance(1000.0).accountType(AccountType.CURRENT).iban("test").build();
 
         given(customerService.getCustomerById(1000L)).willThrow(new CustomerNotFoundException("Does not exist"));
         // when
