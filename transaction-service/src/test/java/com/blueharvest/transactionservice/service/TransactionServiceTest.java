@@ -7,14 +7,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.Assert.*;
@@ -31,7 +26,7 @@ public class TransactionServiceTest {
     TransactionService transactionService;
 
     @Test
-    public void createNewTransaction() {
+    public void whenCreateTransactionThenReturnTransaction() {
 
         Transaction transactionJson = Transaction.builder().id(1L).accountId(1000L).amount(1000.0).build();
 
@@ -43,12 +38,12 @@ public class TransactionServiceTest {
     }
 
     @Test
-    public void getAllTransactionsById() {
+    public void whenGetByAccountIdThenReturnTransactions() {
         final Long accountId = 1000L;
 
         Transaction transactionOne = Transaction.builder().amount(1000.0).accountId(accountId).build();
         Transaction transactionTwo = Transaction.builder().amount(1000.0).accountId(accountId).build();
-        List<Transaction> transactions = Arrays.asList(transactionOne,transactionTwo);
+        List<Transaction> transactions = Arrays.asList(transactionOne, transactionTwo);
         when(transactionRepository.findByAccountId(any(Long.class))).thenReturn(transactions);
 
         List<Transaction> transactionList = transactionService.getAllTransactionsById(accountId);

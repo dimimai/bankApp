@@ -30,7 +30,7 @@ public class TransactionRepositoryTest {
     }
 
     @Test
-    public void getAllTransactionsById() {
+    public void whenGetByAccountIdThenReturnTransactions() {
         final Long accountId = 1000L;
 
         Transaction transactionOne = Transaction.builder().amount(1000.0).accountId(accountId).build();

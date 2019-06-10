@@ -28,7 +28,7 @@ public class CustomerRepositoryTest {
     }
 
     @Test
-    public void getCustomerById() {
+    public void whenGetByCustomerIdThenReturnCustomer() {
 
         customer =  customerRepository.save(customer);
         Optional<Customer> newCustomer = customerRepository.findById(customer.getId());
@@ -37,7 +37,7 @@ public class CustomerRepositoryTest {
     }
 
     @Test
-    public void getCustomerWhenInvalidId() {
+    public void whenGetByInvalidCustomerIdThenReturnNone() {
         Optional<Customer> newCustomer = customerRepository.findById(1000L);
         assertEquals(newCustomer.isPresent(),false);
 

@@ -21,7 +21,7 @@ public class AccountRepositoryTest {
     private AccountRepository accountRepository;
 
     @Test
-    public void createNewAccoount() {
+    public void whenSaveThenReturnAccount() {
 
         Customer customer = Customer.builder().id(1L).firstName("John").lastName("Doe").birthDate(new Date()).build();
 

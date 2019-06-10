@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.blueharvest</groupId>
-	<artifactId>accout-service</artifactId>
+	<artifactId>account-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>accout-service</name>
+	<name>account-service</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
