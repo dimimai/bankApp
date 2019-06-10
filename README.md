@@ -2,7 +2,7 @@
 
 This application contains two services one is account-service and the other one is transaction-service.
 ## Download the app
-Get the gode from gitlab by clonning the repo
+Get the code from gitlab by clonning the repo
 
     git clone https://github.com/dimimai/bankApp.git
 
