@@ -1,7 +1,5 @@
 package com.blueharvest.accountservice.exception;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -25,11 +22,11 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-        ErrorResponse errorResponse =  ErrorResponse.builder()
-                                                    .timestamp(new Date())
-                                                    .message(Arrays.asList(ex.getMessage()))
-                                                    .details(request.getDescription(false))
-                                                    .build();
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(new Date())
+                .message(Arrays.asList(ex.getMessage()))
+                .details(request.getDescription(false))
+                .build();
 
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -37,7 +34,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
     @ExceptionHandler({CustomerNotFoundException.class, AccountNotFoundException.class})
     public final ResponseEntity<Object> handleNotFoundException(Exception ex, WebRequest request) {
-        ErrorResponse errorResponse =  ErrorResponse.builder()
+        ErrorResponse errorResponse = ErrorResponse.builder()
                 .timestamp(new Date())
                 .message(Arrays.asList(ex.getMessage()))
                 .details(request.getDescription(false))
@@ -50,15 +47,15 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     public final ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
                                                                      HttpStatus status, WebRequest request) {
         List<ObjectError> errors = ex.getBindingResult().getAllErrors();
-        List<String>  errorMessage  =  new ArrayList<>();
-        for(ObjectError  e :  errors) {
-            errorMessage.add( e.getDefaultMessage());
+        List<String> errorMessage = new ArrayList<>();
+        for (ObjectError e : errors) {
+            errorMessage.add(e.getDefaultMessage());
         }
-        ErrorResponse errorResponse =  ErrorResponse.builder()
-                                            .timestamp(new Date())
-                                            .message( errorMessage)
-                                            .details(request.getDescription(false))
-                                            .build();
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(new Date())
+                .message(errorMessage)
+                .details(request.getDescription(false))
+                .build();
 
         return new ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
 

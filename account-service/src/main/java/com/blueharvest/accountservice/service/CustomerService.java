@@ -14,13 +14,13 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository){
+    public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
-    public Customer getCustomerById(Long customerId){
-        Optional<Customer> customer =  customerRepository.findById(customerId);
-        if (!customer.isPresent()){
+    public Customer getCustomerById(Long customerId) {
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        if (!customer.isPresent()) {
             throw new CustomerNotFoundException("Customer does not exist");
         }
         return customer.get();

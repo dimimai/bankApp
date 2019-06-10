@@ -1,7 +1,6 @@
-package com.blueharvest.accountservice.service;
+package com.blueharvest.accountservice.repository;
 
 import com.blueharvest.accountservice.model.Customer;
-import com.blueharvest.accountservice.repository.CustomerRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

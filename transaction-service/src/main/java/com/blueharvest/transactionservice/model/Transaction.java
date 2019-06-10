@@ -1,8 +1,6 @@
 package com.blueharvest.transactionservice.model;
 
-
 import lombok.*;
-
 import javax.persistence.*;
 
 @Entity

@@ -1,12 +1,11 @@
 package com.blueharvest.accountservice.controller;
 
 import com.blueharvest.accountservice.AccountServiceApplication;
-import com.blueharvest.accountservice.TransactionServiceProxy;
+import com.blueharvest.accountservice.utils.TransactionServiceProxy;
 import com.blueharvest.accountservice.exception.CustomerNotFoundException;
 import com.blueharvest.accountservice.model.Account;
 import com.blueharvest.accountservice.model.AccountType;
 import com.blueharvest.accountservice.model.Customer;
-import com.blueharvest.accountservice.model.Responses.TransactionsResponse;
 import com.blueharvest.accountservice.model.TransactionBean;
 import com.blueharvest.accountservice.service.AccountService;
 import com.blueharvest.accountservice.service.CustomerService;
@@ -40,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes={ AccountServiceApplication.class })
+@SpringBootTest(classes = {AccountServiceApplication.class})
 public class AccountControllerTest {
 
 
@@ -51,10 +50,10 @@ public class AccountControllerTest {
     private WebApplicationContext webApplicationContext;
 
     @MockBean
-     CustomerService customerService;
+    CustomerService customerService;
 
     @MockBean
-     AccountService accountService;
+    AccountService accountService;
 
     @MockBean
     TransactionServiceProxy proxy;
@@ -65,7 +64,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void createAccountValidRequest() throws Exception {
+    public void whenValidRequestThenReturnAccount() throws Exception {
 
         Date date = new Date();
 
@@ -78,26 +77,26 @@ public class AccountControllerTest {
         given(customerService.getCustomerById(1000L)).willReturn(customer);
         given(accountService.createNewAccoount(any(Account.class))).willReturn(account);
 
-        mockMvc.perform(post("/customers/{customerId}/accounts",1000L)
+        mockMvc.perform(post("/customers/{customerId}/accounts", 1000L)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(gson.toJson(accountJson))
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.id").value("1"))
-                .andExpect(jsonPath("$.accountType").value("current"))
+                .andExpect(jsonPath("$.accountType").value("CURRENT"))
                 .andExpect(jsonPath("$.balance").value(1000.0));
 
     }
 
     @Test
-    public void createAccountNotValidRequest() throws Exception {
+    public void whenNotValidRequestReturnNotFound() throws Exception {
         Account accountJson = Account.builder().balance(1000.0).accountType(AccountType.CURRENT).iban("test").build();
 
         given(customerService.getCustomerById(1000L)).willThrow(new CustomerNotFoundException("Does not exist"));
         // when
         MockHttpServletResponse response = mockMvc.perform(
-                post("/customers/{customerId}/accounts",1000L)
+                post("/customers/{customerId}/accounts", 1000L)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(gson.toJson(accountJson)))
@@ -110,7 +109,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void getTransactionsForCustomer() throws Exception {
+    public void whenValidRequestThenReturnTransactionsForCustomer() throws Exception {
         final Long customerId = 1000L;
         Customer customer = Customer.builder().id(customerId).firstName("John").lastName("Doe").birthDate(new Date()).build();
 
@@ -123,12 +122,12 @@ public class AccountControllerTest {
         given(customerService.getCustomerById(customerId)).willReturn(customer);
         given(accountService.getAccountId(customerId)).willReturn(account.getId());
 
-        List<TransactionBean> transactionBeans =  Arrays.asList(transactionOne,transactionTwo);
+        List<TransactionBean> transactionBeans = Arrays.asList(transactionOne, transactionTwo);
         given(proxy.retrieveAllTransactionsById(account.getId()))
                 .willReturn(new ResponseEntity(transactionBeans, HttpStatus.OK));
 
 
-        mockMvc.perform(get("/accounts/{customerId}/transactions",customerId))
+        mockMvc.perform(get("/accounts/{customerId}/transactions", customerId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("John"))
                 .andExpect(jsonPath("$.sureName").value("Doe"));

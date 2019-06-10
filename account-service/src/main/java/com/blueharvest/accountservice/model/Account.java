@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Account{
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -26,7 +26,7 @@ public class CustomerServiceTest {
 
     @Test
     public void whenCustomerIdThenReturnCustomer() {
-        Customer customer =   Customer.builder().id(1L).firstName("John").lastName("Doe").birthDate(new Date()).build();
+        Customer customer = Customer.builder().id(1L).firstName("John").lastName("Doe").birthDate(new Date()).build();
 
         when(customerRepository.findById(any(Long.class))).thenReturn(Optional.of(customer));
 
@@ -37,7 +37,6 @@ public class CustomerServiceTest {
 
     @Test
     public void whenCustomerIdWrongThenReturnNoCustomer() {
-        Customer customer =   Customer.builder().id(1L).firstName("John").lastName("Doe").birthDate(new Date()).build();
 
         when(customerRepository.findById(any(Long.class))).thenReturn(Optional.of(new Customer()));
 

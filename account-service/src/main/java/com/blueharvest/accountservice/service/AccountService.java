@@ -17,22 +17,20 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-    public Account createNewAccoount(Account account){
+    public Account createNewAccoount(Account account) {
 
-        Account newAccount = accountRepository.save(account);
-
-        return newAccount;
+        return accountRepository.save(account);
     }
 
-    public Long getAccountId(Long customerId){
+    public Long getAccountId(Long customerId) {
 
-       Account account = accountRepository.findByCustomerId(customerId);
+        Account account = accountRepository.findByCustomerId(customerId);
 
-       if (account == null){
-           throw new AccountNotFoundException("account does not exist");
-       }
+        if (account == null) {
+            throw new AccountNotFoundException("account does not exist");
+        }
 
-       return account.getId();
+        return account.getId();
     }
 
 

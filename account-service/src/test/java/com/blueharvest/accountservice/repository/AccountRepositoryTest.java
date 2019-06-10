@@ -20,14 +20,14 @@ public class AccountRepositoryTest {
     @Autowired
     private AccountRepository accountRepository;
 
-        @Test
+    @Test
     public void createNewAccoount() {
 
-        Customer customer  =   Customer.builder().id(1L).firstName("John").lastName("Doe").birthDate(new Date()).build();
+        Customer customer = Customer.builder().id(1L).firstName("John").lastName("Doe").birthDate(new Date()).build();
 
         Account account = Account.builder().iban("NL12345").accountType(AccountType.CURRENT).balance(1000.0).customer(customer).build();
 
         Account newACcount = accountRepository.save(account);
-        assertEquals(newACcount,account);
+        assertEquals(newACcount, account);
     }
 }

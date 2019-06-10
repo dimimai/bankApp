@@ -1,5 +1,6 @@
 com\blueharvest\accountservice\controller\AccountControllerTest.class
+com\blueharvest\accountservice\repository\AccountRepositoryTest.class
 com\blueharvest\accountservice\AccountServiceApplicationTests.class
+com\blueharvest\accountservice\repository\CustomerRepositoryTest.class
 com\blueharvest\accountservice\service\CustomerServiceTest.class
 com\blueharvest\accountservice\service\AccountServiceTest.class
-com\blueharvest\accountservice\TestUtils.class

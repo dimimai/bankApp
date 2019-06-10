@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes={ TransactionServiceApplication.class })
+@SpringBootTest(classes = {TransactionServiceApplication.class})
 public class TransactionControllerTest {
 
     private MockMvc mockMvc;
@@ -50,7 +50,7 @@ public class TransactionControllerTest {
     }
 
     @Test
-    public void transactionCreation() throws Exception {
+    public void whenValidRequestThenCreateNewTransaction() throws Exception {
         Transaction transactionJson = Transaction.builder().accountId(1000L).amount(1000.0).build();
         Transaction transaction = Transaction.builder().id(1L).accountId(1000L).amount(1000.0).build();
 
@@ -68,15 +68,15 @@ public class TransactionControllerTest {
     }
 
     @Test
-    public void retrieveAllTransactionsById() throws Exception {
+    public void whenValidRequestThenReturnTransactions() throws Exception {
         Transaction transactionOne = Transaction.builder().id(1L).amount(1000.0).accountId(100L).build();
         Transaction transactionTwo = Transaction.builder().id(2L).amount(1000.0).accountId(100L).build();
 
-        List<Transaction> transactions = Arrays.asList(transactionOne,transactionTwo);
+        List<Transaction> transactions = Arrays.asList(transactionOne, transactionTwo);
 
         given(transactionService.getAllTransactionsById(100L)).willReturn(transactions);
 
-        mockMvc.perform(get("/transactions/{accountId}",100L))
+        mockMvc.perform(get("/transactions/{accountId}", 100L))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$[0].id").value("1"))

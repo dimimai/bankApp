@@ -27,8 +27,8 @@ public class AccountServiceTest {
     AccountService accountService;
 
     @Test
-    public void whenSaveAccountItReturnsAccount(){
-        Customer customer  =   Customer.builder().id(1L).firstName("John").lastName("Doe").birthDate(new Date()).build();
+    public void whenSaveAccountItReturnsAccount() {
+        Customer customer = Customer.builder().id(1L).firstName("John").lastName("Doe").birthDate(new Date()).build();
 
         Account account = Account.builder().iban("NL12345").accountType(AccountType.CURRENT).balance(1000.0).customer(customer).build();
 

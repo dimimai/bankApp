@@ -17,18 +17,14 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
-    public Transaction createNewTransaction(Transaction transaction){
+    public Transaction createNewTransaction(Transaction transaction) {
 
-        Transaction newTransaction = transactionRepository.save(transaction);
-
-        return newTransaction;
+        return transactionRepository.save(transaction);
     }
 
     public List<Transaction> getAllTransactionsById(Long accountId) {
 
-        List<Transaction> transactions = transactionRepository.findByAccountId(accountId);
-
-        return transactions;
+        return transactionRepository.findByAccountId(accountId);
     }
 
 

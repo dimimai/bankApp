@@ -1,20 +1,16 @@
 package com.blueharvest.accountservice.model;
 
-import com.blueharvest.accountservice.exception.AccountNotFoundException;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public enum AccountType {
-    CURRENT ,
+    CURRENT,
     SAVINGS;
 
 
-    private static Map<String, AccountType> namesMap = new HashMap<String, AccountType>(2);
+    private static Map<String, AccountType> namesMap = new HashMap<>(2);
 
     static {
         namesMap.put("current", CURRENT);

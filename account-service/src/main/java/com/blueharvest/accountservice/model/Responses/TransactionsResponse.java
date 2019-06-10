@@ -1,4 +1,4 @@
-package com.blueharvest.accountservice.model.Responses;
+package com.blueharvest.accountservice.model.responses;
 
 import com.blueharvest.accountservice.model.TransactionBean;
 import lombok.Builder;
