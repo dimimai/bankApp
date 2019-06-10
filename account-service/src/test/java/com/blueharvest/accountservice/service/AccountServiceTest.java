@@ -6,30 +6,37 @@ import com.blueharvest.accountservice.model.Customer;
 import com.blueharvest.accountservice.repository.AccountRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Date;
-import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-@DataJpaTest
+
+@RunWith(MockitoJUnitRunner.class)
 public class AccountServiceTest {
 
-    @Autowired
-    private AccountRepository accountRepository;
+    @Mock
+    AccountRepository accountRepository;
+
+    @InjectMocks
+    AccountService accountService;
 
     @Test
-    public void createNewAccoount() {
-
+    public void whenSaveAccountItReturnsAccount(){
         Customer customer  =   Customer.builder().id(1L).firstName("John").lastName("Doe").birthDate(new Date()).build();
 
         Account account = Account.builder().iban("NL12345").accountType(AccountType.CURRENT).balance(1000.0).customer(customer).build();
 
-        Account newACcount = accountRepository.save(account);
-        assertEquals(newACcount,account);
+        when(accountRepository.save(any(Account.class))).thenReturn(new Account());
+
+        Account created = accountService.createNewAccoount(account);
+
+        assertThat(created.getId()).isSameAs(account.getId());
     }
+
 }

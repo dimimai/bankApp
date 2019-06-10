@@ -35,7 +35,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     }
 
 
-    @ExceptionHandler({CustomerNotFoundException.class,AccountNotFoundException.class})
+    @ExceptionHandler({CustomerNotFoundException.class, AccountNotFoundException.class})
     public final ResponseEntity<Object> handleNotFoundException(Exception ex, WebRequest request) {
         ErrorResponse errorResponse =  ErrorResponse.builder()
                 .timestamp(new Date())

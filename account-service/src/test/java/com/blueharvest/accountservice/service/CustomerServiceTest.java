@@ -2,45 +2,48 @@ package com.blueharvest.accountservice.service;
 
 import com.blueharvest.accountservice.model.Customer;
 import com.blueharvest.accountservice.repository.CustomerRepository;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Date;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-@DataJpaTest
+@RunWith(MockitoJUnitRunner.class)
+
 public class CustomerServiceTest {
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    @Mock
+    CustomerRepository customerRepository;
 
-    private Customer customer;
+    @InjectMocks
+    CustomerService customerService;
 
-    @Before
-    public void init(){
-        customer =   Customer.builder().firstName("John").lastName("Doe").birthDate(new Date()).build();
+    @Test
+    public void whenCustomerIdThenReturnCustomer() {
+        Customer customer =   Customer.builder().id(1L).firstName("John").lastName("Doe").birthDate(new Date()).build();
+
+        when(customerRepository.findById(any(Long.class))).thenReturn(Optional.of(customer));
+
+        Customer newCustomer = customerService.getCustomerById(customer.getId());
+        assertThat(newCustomer.getId()).isSameAs(customer.getId());
+
     }
 
     @Test
-    public void getCustomerById() {
+    public void whenCustomerIdWrongThenReturnNoCustomer() {
+        Customer customer =   Customer.builder().id(1L).firstName("John").lastName("Doe").birthDate(new Date()).build();
 
-        customer =  customerRepository.save(customer);
-        Optional<Customer> newCustomer = customerRepository.findById(customer.getId());
-        assertEquals(newCustomer.get(),customer);
+        when(customerRepository.findById(any(Long.class))).thenReturn(Optional.of(new Customer()));
 
-    }
-
-    @Test
-    public void getCustomerWhenInvalidId() {
-        Optional<Customer> newCustomer = customerRepository.findById(1000L);
-        assertEquals(newCustomer.isPresent(),false);
+        Customer newCustomer = customerService.getCustomerById(1000L);
+        assertThat(newCustomer.getId()).isSameAs(null);
 
     }
 }

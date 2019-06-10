@@ -6,6 +6,8 @@ import com.blueharvest.accountservice.exception.CustomerNotFoundException;
 import com.blueharvest.accountservice.model.Account;
 import com.blueharvest.accountservice.model.AccountType;
 import com.blueharvest.accountservice.model.Customer;
+import com.blueharvest.accountservice.model.Responses.TransactionsResponse;
+import com.blueharvest.accountservice.model.TransactionBean;
 import com.blueharvest.accountservice.service.AccountService;
 import com.blueharvest.accountservice.service.CustomerService;
 import com.google.gson.Gson;
@@ -17,16 +19,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -101,6 +107,31 @@ public class AccountControllerTest {
         assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
         assertThat(response.getContentAsString().contains("Does not exist")).isEqualTo(true);
 
+    }
+
+    @Test
+    public void getTransactionsForCustomer() throws Exception {
+        final Long customerId = 1000L;
+        Customer customer = Customer.builder().id(customerId).firstName("John").lastName("Doe").birthDate(new Date()).build();
+
+        Account account = Account.builder().id(1L).balance(1000.0).accountType(AccountType.CURRENT).iban("test").customer(customer)
+                .build();
+
+        TransactionBean transactionOne = TransactionBean.builder().id(1L).amount(1000.0).accountId(100L).build();
+        TransactionBean transactionTwo = TransactionBean.builder().id(2L).amount(1000.0).accountId(100L).build();
+
+        given(customerService.getCustomerById(customerId)).willReturn(customer);
+        given(accountService.getAccountId(customerId)).willReturn(account.getId());
+
+        List<TransactionBean> transactionBeans =  Arrays.asList(transactionOne,transactionTwo);
+        given(proxy.retrieveAllTransactionsById(account.getId()))
+                .willReturn(new ResponseEntity(transactionBeans, HttpStatus.OK));
+
+
+        mockMvc.perform(get("/accounts/{customerId}/transactions",customerId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("John"))
+                .andExpect(jsonPath("$.sureName").value("Doe"));
     }
 
 }
